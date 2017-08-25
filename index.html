@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jquery.form</title>
+	<script src="./jquery-1.7.2.min.js"></script>
+	<script src="./jquery.form.js"></script>
+</head>
+<body>
+
+	<form id="form" action="./do.php" method="post" enctype='multipart/form-data'>
+        <p>jQuery.form.js异步提交方式</p>
+        <p>用户名：<input type="text" name="uname" /></p>
+        <p>密码：<input type="password" name="password" /></p>
+		<p><input type="file" name="file"></p>
+		<p><input type="submit" value="提交"></p>
+	</form>
+	
+	<div id="output">
+		
+	</div>
+	
+</body>
+</html>
+<script>
+$(function(){
+		
+	var options = {  
+	   //target: '#output',          //把服务器返回的内容放入id为output的元素中      
+	   //beforeSubmit: showRequest,  //提交前的回调函数，一般用作提交前的表单验证  
+	   success: showResponse,      //提交后的回调函数  
+	   //url: url,                 //默认是form的action， 如果申明，则会覆盖  
+	   //type: type,               //默认是form的method（get or post），如果申明，则会覆盖  
+	   //dataType: null,           //html(默认), xml, script, json...接受服务端返回的类型  
+	   //clearForm: true,          //成功提交后，清除所有表单元素的值  
+	   //resetForm: true,          //成功提交后，重置所有表单元素的值  
+	   timeout: 3000               //限制请求的时间，当请求大于3秒后，跳出请求  
+	}
+	
+	//主要做提交前的验证
+	//function showRequest(){  
+	   
+	//};   
+  
+	function showResponse(res){  
+		$("#output").html(res);
+	    alert('提交成功');
+	};  
+	
+	$('#form').submit(function() {
+	  $(this).ajaxSubmit(options);
+	  return false; 
+	  //非常重要，如果是false，则表明是不跳转
+	  //在本页上处理，也就是ajax，如果是非false，则传统的form跳转。
+	});
+	
+})
+</script>
